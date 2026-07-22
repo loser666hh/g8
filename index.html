@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搞笑跳舞遊戲 🕺💃</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .game-area {
+            position: relative;
+            width: 400px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            margin: 20px auto;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .dancer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 30px;
+        }
+
+        .head {
+            width: 60px;
+            height: 60px;
+            background: #f4a460;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .eyes {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 15px;
+            width: 100%;
+        }
+
+        .eye {
+            width: 8px;
+            height: 8px;
+            background: black;
+            border-radius: 50%;
+        }
+
+        .mouth {
+            width: 20px;
+            height: 10px;
+            background: none;
+            border: 2px solid black;
+            border-top: none;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .body {
+            width: 40px;
+            height: 60px;
+            background: #ff6b6b;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: transform 0.1s;
+        }
+
+        .limbs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+        }
+
+        .arm {
+            position: absolute;
+            width: 12px;
+            height: 60px;
+            background: #f4a460;
+            border-radius: 6px;
+            top: 100px;
+            transform-origin: top center;
+            transition: transform 0.1s;
+        }
+
+        .left-arm {
+            left: 60px;
+            background: linear-gradient(to bottom, #f4a460, #e89450);
+        }
+
+        .right-arm {
+            right: 60px;
+            background: linear-gradient(to bottom, #f4a460, #e89450);
+        }
+
+        .leg {
+            position: absolute;
+            width: 14px;
+            height: 80px;
+            background: #1a1a2e;
+            border-radius: 7px;
+            top: 160px;
+            transform-origin: top center;
+            transition: transform 0.1s;
+        }
+
+        .left-leg {
+            left: 85px;
+        }
+
+        .right-leg {
+            right: 85px;
+        }
+
+        .shoe {
+            width: 18px;
+            height: 20px;
+            background: #333;
+            border-radius: 2px;
+            margin: 0 auto;
+            margin-top: 5px;
+        }
+
+        .controls {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .controls h2 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .control-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .control-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.9em;
+        }
+
+        .control-item strong {
+            color: #ffd700;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover {
+            background: #ff5252;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .reset-btn {
+            background: #4ecdc4;
+        }
+
+        .reset-btn:hover {
+            background: #45b7aa;
+        }
+
+        .random-btn {
+            background: #ffd700;
+            color: #333;
+        }
+
+        .random-btn:hover {
+            background: #ffed4e;
+        }
+
+        .stats {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .game-area {
+                width: 90vw;
+                height: 60vh;
+            }
+
+            .controls {
+                width: 90vw;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🕺 搞笑跳舞遊戲 💃</h1>
+        
+        <div class="game-area">
+            <div class="dancer">
+                <div class="head">
+                    <div class="eyes">
+                        <div class="eye"></div>
+                        <div class="eye"></div>
+                    </div>
+                    <div class="mouth"></div>
+                </div>
+                <div class="body"></div>
+            </div>
+            <div class="limbs">
+                <div class="arm left-arm" id="leftArm"></div>
+                <div class="arm right-arm" id="rightArm"></div>
+                <div class="leg left-leg" id="leftLeg"><div class="shoe"></div></div>
+                <div class="leg right-leg" id="rightLeg"><div class="shoe"></div></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h2>⌨️ 控制方式</h2>
+            <div class="control-grid">
+                <div class="control-item"><strong>Q</strong> 左手上抬</div>
+                <div class="control-item"><strong>W</strong> 右手上抬</div>
+                <div class="control-item"><strong>A</strong> 左手下擺</div>
+                <div class="control-item"><strong>S</strong> 右手下擺</div>
+                <div class="control-item"><strong>Z</strong> 左腳踩地</div>
+                <div class="control-item"><strong>X</strong> 右腳踩地</div>
+                <div class="control-item"><strong>C</strong> 左腳抬起</div>
+                <div class="control-item"><strong>V</strong> 右腳抬起</div>
+            </div>
+            <div class="button-group">
+                <button class="reset-btn" onclick="resetDancer()">🔄 重置</button>
+                <button class="random-btn" onclick="randomDance()">🎲 隨機舞蹈</button>
+            </div>
+            <div class="stats">
+                <p>💡 提示：同時按多個鍵可以做出更搞笑的動作！</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const leftArm = document.getElementById('leftArm');
+        const rightArm = document.getElementById('rightArm');
+        const leftLeg = document.getElementById('leftLeg');
+        const rightLeg = document.getElementById('rightLeg');
+
+        // 儲存各肢體的當前角度
+        let angles = {
+            leftArm: 0,
+            rightArm: 0,
+            leftLeg: 0,
+            rightLeg: 0
+        };
+
+        // 按鍵狀態
+        const keyState = {};
+
+        // 監聽按鍵按下
+        document.addEventListener('keydown', (e) => {
+            keyState[e.key.toLowerCase()] = true;
+            handleKeyPress(e.key.toLowerCase());
+        });
+
+        // 監聽按鍵釋放
+        document.addEventListener('keyup', (e) => {
+            keyState[e.key.toLowerCase()] = false;
+        });
+
+        function handleKeyPress(key) {
+            switch(key) {
+                case 'q':
+                    angles.leftArm = Math.max(angles.leftArm - 15, -120);
+                    break;
+                case 'w':
+                    angles.rightArm = Math.min(angles.rightArm + 15, 120);
+                    break;
+                case 'a':
+                    angles.leftArm = Math.min(angles.leftArm + 15, 60);
+                    break;
+                case 's':
+                    angles.rightArm = Math.max(angles.rightArm - 15, -60);
+                    break;
+                case 'z':
+                    angles.leftLeg = Math.max(angles.leftLeg - 20, -100);
+                    break;
+                case 'x':
+                    angles.rightLeg = Math.min(angles.rightLeg + 20, 100);
+                    break;
+                case 'c':
+                    angles.leftLeg = Math.min(angles.leftLeg + 20, 80);
+                    break;
+                case 'v':
+                    angles.rightLeg = Math.max(angles.rightLeg - 20, -80);
+                    break;
+            }
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            leftArm.style.transform = `rotate(${angles.leftArm}deg)`;
+            rightArm.style.transform = `rotate(${angles.rightArm}deg)`;
+            leftLeg.style.transform = `rotate(${angles.leftLeg}deg)`;
+            rightLeg.style.transform = `rotate(${angles.rightLeg}deg)`;
+        }
+
+        function resetDancer() {
+            angles = {
+                leftArm: 0,
+                rightArm: 0,
+                leftLeg: 0,
+                rightLeg: 0
+            };
+            updateDisplay();
+        }
+
+        function randomDance() {
+            // 隨機舞蹈動畫
+            let steps = 0;
+            const danceInterval = setInterval(() => {
+                angles.leftArm = (Math.random() * 240) - 120;
+                angles.rightArm = (Math.random() * 240) - 120;
+                angles.leftLeg = (Math.random() * 180) - 100;
+                angles.rightLeg = (Math.random() * 180) - 80;
+                updateDisplay();
+                
+                steps++;
+                if (steps > 8) {
+                    clearInterval(danceInterval);
+                    resetDancer();
+                }
+            }, 200);
+        }
+
+        // 初始化
+        updateDisplay();
+
+        // 添加一些搞笑的評論
+        const compliments = [
+            '太專業了！🌟',
+            '我笑噴了！😂',
+            '舞步一流！🔥',
+            '簡直是舞王！👑',
+            '夭壽喔！😆',
+            '跳得真猛！💪',
+            '絕了！🎉'
+        ];
+
+        // 每隔一段時間顯示隨機評論
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const msg = compliments[Math.floor(Math.random() * compliments.length)];
+                console.log(msg);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
